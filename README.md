@@ -13,6 +13,7 @@ Adds a small circular restart button (↻) to the sidebar footer, next to Settin
 - Small footprint: sits beside the Settings trigger in the sidebar footer; icon-only in the 56px rail, icon + label in the wide sidebar.
 - In-flight feedback: the button turns red and shows "重启中…" → "已触发" while the request is being processed.
 - Re-entry guard: a second click while a restart is already in flight is rejected.
+- Online status dot: the button also shows DSH liveness — a green dot polls `GET /dsh-health` every 5s (red when the harness is unreachable/restarting).
 
 ## Install
 
@@ -53,10 +54,10 @@ Then restart `dsh web` once so the bundle layer loads.
 | Layer | File | What it does |
 | --- | --- | --- |
 | Host | `lib/index.js` | Registers an exact `POST /restart-dsh` route on the webServer; launches the restart script as an independent hidden PowerShell under `danger-full-access` sandbox policy |
-| Client | `lib/client.js` | Registers the sidebar footer button (slot `sidebar.footer.action`); single click `fetch`es `POST /restart-dsh` |
+| Client | `lib/client.js` | Registers the sidebar footer button (slot `sidebar.footer.action`); single click `fetch`es `POST /restart-dsh`; polls `GET /dsh-health` every 5s for the status dot |
 | Bundle | `cordis.patch.yml` | The loader row that mounts both halves |
 
-The host route returns **before** the restart happens (~1s host timer + 3s inner sleep), giving the browser time to render the "restarting" state before the page drops.
+The host routes return **before** the restart happens (~1s host timer + 3s inner sleep), giving the browser time to render the "restarting" state before the page drops.
 
 ### Why not `ctx.timeout` in the route handler
 

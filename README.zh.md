@@ -13,6 +13,7 @@
 - 轻量：位于侧边栏底部设置入口旁；56px 窄轨只显示图标，宽轨显示图标 + 文字。
 - 状态反馈：请求处理中按钮变红并显示「重启中…」→「已触发」。
 - 防重入：重启进行中再次点击会被拒绝。
+- 在线状态点：按钮旁显示 DSH 存活状态——绿色圆点每 5 秒轮询 `GET /dsh-health`（harness 不可达 / 重启中显示红色）。
 
 ## 安装
 
@@ -53,7 +54,7 @@ dsh plugin --profile web add github:YOUR_OWNER/dsh-web-restart
 | 层 | 文件 | 作用 |
 | --- | --- | --- |
 | Host | `lib/index.js` | 在 webServer 注册精确路由 `POST /restart-dsh`；以 `danger-full-access` 沙箱策略、独立隐藏 PowerShell 进程启动重启脚本 |
-| Client | `lib/client.js` | 在 `sidebar.footer.action` slot 注册侧边栏底部按钮；单击 `fetch` `POST /restart-dsh` |
+| Client | `lib/client.js` | 在 `sidebar.footer.action` slot 注册侧边栏底部按钮；单击 `fetch` `POST /restart-dsh`；每 5 秒轮询 `GET /dsh-health` 驱动状态点 |
 | Bundle | `cordis.patch.yml` | 同时挂载 host / client 两半的加载器行 |
 
 host 路由在重启发生**之前**返回（约 1 秒宿主定时器 + 3 秒内部延迟），给浏览器留出渲染「重启中」状态的时间。
