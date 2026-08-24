@@ -1,7 +1,7 @@
 {
   "name": "dsh-web-restart",
-  "version": "0.1.0",
-  "description": "One-click restart button for the DeepSeek Harness Web UI: a sidebar footer button that restarts the dsh web process (single click, no confirmation step). / DSH Web 界面一键重启按钮：侧边栏底部按钮，单击即重启 dsh web 进程（无需二次确认）。",
+  "version": "0.1.1",
+  "description": "One-click restart button for the DeepSeek Harness Web UI: a sidebar footer button that restarts the dsh web process (single click, no confirmation step). Hardened fork: configurable restart script (env DSH_WEB_RESTART_SCRIPT, default <DSH_HOME>/dsh-web-restart/restart-dsh-web.ps1), -File launch, absolute-path validation, and a same-origin CSRF fence on POST /restart-dsh. / DSH Web 界面一键重启按钮：侧边栏底部按钮，单击即重启 dsh web 进程（无需二次确认）。加固版：重启脚本路径可配置、-File 启动、路径校验与同源防护。",
   "private": false,
   "type": "module",
   "main": "lib/index.js",
